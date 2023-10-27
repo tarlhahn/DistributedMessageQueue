@@ -11,16 +11,24 @@ async def send_message(topic):
     Asynchronous route to send a message to a specific topic.
     """
     # Retrieve the JSON data from the request
+    data = request.get_json()
     
     # Extract the message from the data
+    message = data.get('message')
 
     # Record the current time to calculate the elapsed time later
+    start_time = time.time()
 
     # Start the message queue, send the message, and then close the queue
+    await g.message_queue.start()
+    await g.message_queue.send(topic, message.encode('utf-8'))  # Encode the message to UTF-8
+    await g.message_queue.close()
 
     # Record the time after the message is sent
+    end_time = time.time()
     
     # Calculate the time taken to send the message
+    elapsed_time = end_time - start_time
 
     # Update the metrics for the send operation with the elapsed time
     

@@ -19,16 +19,16 @@ def create_app(options, message_queue):
     global variables, and register the API blueprints.
     """
     app = Flask(__name__)  # Create a Flask app instance
-
-    metrics = Metrics()  # Initialize metrics object for monitoring
+    CORS(app)  # Enable Cross-Origin Resource Sharing for the app
 
     @app.before_request
     async def before_request():
         """
         Set up global variables before each request.
         """
-        pass
-
+        if 'message_queue' not in g:
+            g.message_queue = message_queue  # Set the global message queue
+        
     # Register the blueprints for different API endpoints
     app.register_blueprint(producer_blueprint)
     app.register_blueprint(consumer_blueprint)

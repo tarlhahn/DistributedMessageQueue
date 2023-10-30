@@ -2,6 +2,8 @@
 
 A simple yet robust distributed message queue system that facilitates communication between multiple producers and consumers. This system ensures that messages are delivered at least once and provides a dashboard for monitoring various metrics.
 
+__Trigger Alert:__ This is for demonstration purposes only. This is not intended for use in production.
+
 ## Table of Contents
 
 - [Features](#features)
@@ -28,6 +30,7 @@ A simple yet robust distributed message queue system that facilitates communicat
 
 ### Prerequisites
 - Ensure you have Python installed. Recommend using virtual environments
+  - required packages: aiokafka pytest-asyncio aio_pika Flask\[async\] pydantic flask-cors gunicorn uvicorn[standard]
 - Install Node.js and npm/yarn for the dashboard.
 - Set up Kafka or RabbitMQ as your message queue.
 
@@ -41,25 +44,44 @@ cd distributed-message-queue-system
 **Set Up the Backend**
 
 #### Backend API
-**TBD**
+We recommend using a virtual environment for the backend api.
+```bash
+# From backend directory, before installing the necessary packages.
+python -m venv myenv && source myenv/bin/activate
+```
 
+Install following packages
+```bash
+pip install aiokafka pytest-asyncio aio_pika Flask[async] pydantic flask-cors gunicorn uvicorn[standard]
+```
+
+```bash
+cd DistributedMessageQueueSystem/backend/src
+pip install .
+```
 ### Message Queue
 Follow the official documentation for [Kafka](https://kafka.apache.org/quickstart) to set up the messaging system.
 
 #### Dashboard
-**TBD**
-
+```bash
+cd DistributedMessageQueueSystem/dashboard
+npm install # or yarn install
+```
 ## Running the Application
 
 ### Backend
-**TBD**
-
+```bash
+cd DistributedMessageQueueSystem/backend
+gunicorn -w 1 -b 0.0.0.0:8000 src.backend:app
+```
 ### Message Queue
 Follow the official documentation for [Kafka](https://kafka.apache.org/quickstart) to start the messaging system.
 
 ### Dashboard
-**TBD**
-
+```bash
+cd DistributedMessageQueueSystem/src/dashboard
+npm start # or yarn start
+```
 ## Usage
 
 **Sending Messages (Producers)**

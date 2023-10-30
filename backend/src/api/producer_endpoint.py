@@ -31,7 +31,7 @@ async def send_message(topic):
     elapsed_time = end_time - start_time
 
     # Update the metrics for the send operation with the elapsed time
-    
+    await g.metrics.update_send_metrics(elapsed_time)
     # Return a JSON response with the status and message details
     return jsonify({"status": "Message sent", "topic": topic, "message": message})
 

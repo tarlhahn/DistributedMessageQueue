@@ -21,6 +21,8 @@ def create_app(options, message_queue):
     app = Flask(__name__)  # Create a Flask app instance
     CORS(app)  # Enable Cross-Origin Resource Sharing for the app
 
+    metrics = Metrics()
+
     @app.before_request
     async def before_request():
         """
@@ -28,6 +30,8 @@ def create_app(options, message_queue):
         """
         if 'message_queue' not in g:
             g.message_queue = message_queue  # Set the global message queue
+        if 'metrics' not in g:
+            g.metrics = metrics              # Set the metrics
         
     # Register the blueprints for different API endpoints
     app.register_blueprint(producer_blueprint)
